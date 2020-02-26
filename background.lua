@@ -7,7 +7,7 @@ local background = {
 }
 
 function background:setTilesMap()
-  background.img = love.graphics.newImage("/Assets/ScrollOSprites.png")
+  background.img = love.graphics.newImage("/Assets/ScrollOSpritesClean.png")
   background.tilesMap = require("/Assets/MyFirstTileMap")
   background.tileset = background.tilesMap.tilesets[1]
   background.layer = background.tilesMap.layers[1]
@@ -33,6 +33,7 @@ function background:load()
 end
 
 function background:draw()
+  love.graphics.setColor(1,1,1)
  for y = 0, background.layer.height - 1 do
       for x = 0, background.layer.width - 1 do
         if background.layer.data[x + (y * background.layer.width) + 1] == nil then

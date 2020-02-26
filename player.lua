@@ -1,6 +1,7 @@
 local player = {}
 local playerProto = {
-    x = 100, y = 100
+    x = 100, y = 100,
+    dx = 0, dy = 0
 }
 local playerMT = {
     __index = playerProto
@@ -13,14 +14,17 @@ function player:new(p)
 end
 
 function playerProto:load()
-    self.img = love.graphics.newImage("/Assets/ScrollOSprites.png")
-    self.top_left = love.graphics.newQuad(64, 192, 32, 32, self.img:getDimensions())
+    local tiles = require("background")
+    tiles:load()
+    tilesQuad = tiles.quads
+    self.img = tiles.img
 end
 
 function playerProto:draw(x, y)
     self.x = x or self.x
     self.y = y or self.y
-    love.graphics.draw(self.img, self.top_left, self.x, self.y)
+    love.graphics.setColor(1, 0.5, 0.25)
+    love.graphics.draw(self.img, tilesQuad[1], self.x, self.y)
 end
 
 function  playerProto:update(dt)
