@@ -7,13 +7,15 @@ function love.load()
   
   _background:load()
   player:load()
+  
+  screenX, screenY = 0, 0
 end
 
 function love.draw()
   local camMaxX = love.graphics.getWidth()*2/3
   local camMaxY = love.graphics.getHeight()*2/3
   local camMinX = love.graphics.getWidth()*1/3
-  local camMinY = love.graphics.getHeight()*2/3
+  local camMinY = love.graphics.getHeight()*1/3
   
   local translateX, translateY = 0, 0
   
@@ -31,21 +33,34 @@ function love.draw()
     translateY = camMinY - player.y
   end
   
-  if translateX ~= 0 or translateY ~= 0 then
+  local playerScreenX, playerScreenY = 0, 0
+  if translateX ~= 0  or translateY ~= 0 then
     love.graphics.push()
     love.graphics.translate(translateX, translateY) 
     _background:draw()
     player:draw()
+    playerScreenX, playerScreenY = love.graphics.transformPoint(player.x,player.y)
     love.graphics.pop()
   else
     _background:draw()
     player:draw()
+    playerScreenX, playerScreenY = love.graphics.transformPoint(player.x,player.y)
+  end
+
+  
+  if translateX ~= 0 then
+    screenX = -translateX
+  end
+  if translateY ~= 0 then
+    screenY = -translateY
   end
   
-  love.graphics.setColor(0.5, 0.25, 0.25)
+  love.graphics.setColor(0.8, 0.50, 0.25)
   love.graphics.print("camMinX : " .. camMinX .. ", camMinY : " .. camMinY .. ", camMaxX : " .. camMaxX .. ", camMaxY : " .. camMaxY, 30, 10)
-  love.graphics.print("x : " .. player.x .. ", y : " .. player.y, 30, 30)
-  love.graphics.print("tx : " .. translateX .. ", ty : " .. translateX, 30, 50)
+  love.graphics.print("px : " .. player.x .. ", py : " .. player.y, 30, 30)
+  love.graphics.print("trX : " .. translateX .. ", trY : " .. translateY, 30, 50)
+  love.graphics.print("globalX : " .. playerScreenX .. ", globalY : " .. playerScreenY, 30, 70)
+
 end
 
 function love.update(dt)

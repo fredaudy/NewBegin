@@ -1,6 +1,6 @@
 local player = {}
 local playerProto = {
-    x = 100, y = 100,
+    x = 300, y = 300,
     dx = 0, dy = 0
 }
 local playerMT = {
